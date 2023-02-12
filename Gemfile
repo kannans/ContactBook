@@ -72,3 +72,6 @@ group :test do
 end
 
 gem "devise", "~> 4.8"
+gem 'devise-jwt'
+gem 'fast_jsonapi'
+gem 'rack-cors'

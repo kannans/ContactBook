@@ -5,7 +5,7 @@ import { Box, Stack } from '@mui/system';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../controllers/store';
 import { useNavigate } from 'react-router-dom';
-import { inviteUser, resetErrorState } from './sessions/sessionSlice';
+import { getUsers, inviteUser, resetErrorState } from './sessions/sessionSlice';
 
 const Invite = () => {
   const [open, setOpen]=useState(false);
@@ -51,8 +51,7 @@ const Invite = () => {
     setOpen(false)
     if (errorMessages.length === 0) {
       alert("Invited successfully")
-      navigate("/")
-      window.location.reload()
+      dispatch(getUsers())
     } else {
       return setErrors(errorMessages);
     }

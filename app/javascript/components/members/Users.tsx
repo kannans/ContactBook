@@ -16,8 +16,6 @@ import { getUsers } from '../sessions/sessionSlice';
 
 
  const Users = () => {
-  const loading = useSelector((state: RootState) => state.session.loading);
-  const accessToken = useSelector((state : RootState) => state.session.accessToken);
   const users = useSelector((state : RootState) => state.session.usersList);
   
   const dispatch = useDispatch();

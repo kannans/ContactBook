@@ -20,7 +20,7 @@ export async function createUserWithEmailAndPassword(
   };
 
   return axios
-    (SIGNUP_URL, data)
+    .post(SIGNUP_URL, data)
     .then((response: any) => {
       return response.data;
     })

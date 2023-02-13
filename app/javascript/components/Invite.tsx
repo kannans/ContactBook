@@ -5,7 +5,7 @@ import { Box, Stack } from '@mui/system';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../controllers/store';
 import { useNavigate } from 'react-router-dom';
-import { inviteUser, loginUser, resetErrorState } from './sessions/sessionSlice';
+import { inviteUser, resetErrorState } from './sessions/sessionSlice';
 
 const Invite = () => {
   const [open, setOpen]=useState(false);

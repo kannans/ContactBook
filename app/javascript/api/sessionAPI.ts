@@ -91,6 +91,7 @@ export async function inviteAcceptReq(
     });
 }
 
+// TODO: Updating profile and change password is in progress
 export async function updateUserProfile(
   currentPassword: string,
   token: string | undefined,

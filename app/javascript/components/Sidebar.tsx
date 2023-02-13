@@ -13,7 +13,7 @@ const Sidebar = () => {
        <Box position="fixed">
       <List>
         <ListItem disablePadding>
-          <ListItemButton component="a" href="/dashboard">
+          <ListItemButton component="a" href="/">
             <ListItemIcon>
               <Home />
             </ListItemIcon>

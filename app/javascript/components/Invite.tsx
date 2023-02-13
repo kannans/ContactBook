@@ -48,8 +48,10 @@ const Invite = () => {
     }
     const response = await dispatch(inviteUser(payload)) as any;
     console.log(response);
+    setOpen(false)
     if (errorMessages.length === 0) {
       alert("Invited successfully")
+      navigate("/")
     } else {
       return setErrors(errorMessages);
     }

@@ -3,8 +3,9 @@ It's a sample Ruby on Rails application with React and Redux. User can able to l
 Invited user will receive email with the registration link and setup his details and login to this application wise versa.
 
 
-### Prerequisite
+#### Prerequisite
 
+- Linux/Mac platform
 - Rails 7.0.4.2
 - Ruby 3.0.1
 - Node v16.13.1

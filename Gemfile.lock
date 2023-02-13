@@ -97,6 +97,9 @@ GEM
     devise-jwt (0.10.0)
       devise (~> 4.0)
       warden-jwt_auth (~> 0.6)
+    devise_invitable (2.0.7)
+      actionmailer (>= 5.0)
+      devise (>= 4.6)
     dry-auto_inject (1.0.0)
       dry-core (~> 1.0, < 2)
       zeitwerk (~> 2.6)
@@ -122,6 +125,10 @@ GEM
     jsbundling-rails (1.1.1)
       railties (>= 6.0.0)
     jwt (2.7.0)
+    launchy (2.5.0)
+      addressable (~> 2.7)
+    letter_opener (1.7.0)
+      launchy (~> 2.2)
     loofah (2.19.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -249,9 +256,11 @@ DEPENDENCIES
   debug
   devise (~> 4.8)
   devise-jwt
+  devise_invitable (~> 2.0.0)
   fast_jsonapi
   jbuilder
   jsbundling-rails
+  letter_opener
   puma (~> 5.0)
   rack-cors
   rails (~> 7.0.1, >= 7.0.4.2)

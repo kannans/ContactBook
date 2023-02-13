@@ -68,16 +68,8 @@ const Navbar = () => {
       <StyledToolbar>
         <Typography variant='h6' sx={{display: {xs: "none", sm: "block"}}}>Contacts</Typography>
         <ContactMail sx={{display: {xs: "block", sm: "none"}}} />
-        <Search>
-            <InputBase placeholder='search...'/>
-        </Search>
+       
         <Icons>
-          <Badge badgeContent={4} color="error">
-            <Email  />
-          </Badge>
-          <Badge badgeContent={4} color="error">
-            <Notifications  />
-          </Badge>
           <Avatar 
           src="https://media.licdn.com/dms/image/C4D03AQEn8e4NRu9j7A/profile-displayphoto-shrink_800_800/0/1599814737836?e=1680739200&v=beta&t=-_BNpNEe7mU4VA43Pu8AK7-tE92KRYegICEumT48wBo"
           onClick={handleClick}></Avatar>

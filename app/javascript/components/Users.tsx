@@ -7,6 +7,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Box } from '@mui/material';
+import Invite from './Invite';
 
 function createData(
   id: number,
@@ -56,6 +57,7 @@ const rows = [
           </TableBody>
         </Table>
       </TableContainer>
+      <Invite/>
     </Box>
   );
 }

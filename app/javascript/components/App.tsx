@@ -7,6 +7,7 @@ import Sidebar from './Sidebar';
 import Main from './Main';
 import PersistLogin from "./sessions/PersistLogin"
 import Login from "./sessions/Login";
+import AcceptInvite from "./sessions/AcceptInvite";
 import Signup from "./sessions/Signup";
 import PrivateRoute from './routes/PrivateRoute';
 import PublicOnlyRoute from './routes/PublicOnlyRoute';
@@ -48,6 +49,12 @@ const App = ()=> {
               <Route path="/signup" element={
                 <PublicOnlyRoute>
                   <Signup />
+                </PublicOnlyRoute> 
+              }/>
+
+              <Route path="/accept/:invitation_token" element={
+                <PublicOnlyRoute>
+                  <AcceptInvite />
                 </PublicOnlyRoute> 
               }/>
             </Routes>

@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { createUserWithEmailAndPassword, getCurrentUser, loginWithEmailAndPassword, logoutUserWithToken, requestAccessTokenWithRefreshToken, updateUserProfile } from "../../api/sessionAPI";
+import { createUserWithEmailAndPassword, getCurrentUser, inviteAcceptReq, inviteWithEmail, loginWithEmailAndPassword, logoutUserWithToken, requestAccessTokenWithRefreshToken, updateUserProfile } from "../../api/sessionAPI";
 import { RootState, AppThunk } from "../../controllers/store";
 
 
@@ -14,6 +14,15 @@ export interface User {
 export interface UserLoginData {
   email: string;
   password: string;
+}
+
+export interface InviteData {
+  email: string;
+}
+export interface InviteAcceptData {
+  password: string;
+  passwordConfirmation: string;
+  invitationToken: string;
 }
 
 export interface UserUpdateData {
@@ -116,6 +125,47 @@ export const loginUser = createAsyncThunk(
     };
     // The value we return becomes the `fulfilled` action payload
     return response;
+  }
+);
+
+export const inviteUser = createAsyncThunk(
+  "session/inviteUser",
+  async (payload: InviteData, { rejectWithValue }) => {
+    const loginResponse = await inviteWithEmail(
+      payload.email,
+    );
+    if (loginResponse.error) {
+      // The value we return becomes the `rejected` action payload
+      return rejectWithValue(loginResponse);
+    }
+    // The value we return becomes the `fulfilled` action payload
+    return loginResponse.data;
+  }
+);
+
+export const inviteAcceptUser = createAsyncThunk(
+  "session/inviteAcceptUser",
+  async (payload: InviteAcceptData, { rejectWithValue }) => {
+    const loginResponse = await inviteAcceptReq(
+      payload.password,
+      payload.passwordConfirmation,
+      payload.invitationToken
+    );
+    if (loginResponse.error) {
+      // The value we return becomes the `rejected` action payload
+      return rejectWithValue(loginResponse);
+    }
+    const userResponse = await getCurrentUser(loginResponse.data.access_token);
+    if (userResponse.error) {
+      return rejectWithValue(userResponse.data);
+    }
+    const response = {
+      ...loginResponse.data,
+      ...userResponse,
+    };
+    // The value we return becomes the `fulfilled` action payload
+    return response;
+
   }
 );
 
@@ -230,7 +280,31 @@ export const sessionSlice = createSlice({
         state.loading = false;
         state.error = true;
         state.errorMessages = ["Invalid credentials. Did you enter them correctly?"];
-      }).addCase(refreshAccessToken.pending, (state) => {
+      })
+      .addCase(inviteAcceptUser.fulfilled, (state, action: any) => {
+        state.accessToken = action.payload.data.access_token;
+        state.refreshToken = action.payload.data.refresh_token;
+        state.expiresIn = action.payload.data.expires_in;
+        state.currentUser = {
+          id: action.payload.data.id,
+          name: action.payload.data.name,
+          email: action.payload.data.email,
+          status: action.payload.data.status,
+          createdAt: action.payload.data.created_at,
+        };
+        console.log("action.payload", action.payload)
+        storeRefreshToken(action.payload.data.refresh_token);
+
+        state.loading = false;
+        state.error = false;
+        state.errorMessages = [];
+      })
+      .addCase(inviteAcceptUser.rejected, (state, action: any) => {
+        state.loading = false;
+        state.error = true;
+        state.errorMessages = ["Already accepted/Expired token. Please try again."];
+      })
+      .addCase(refreshAccessToken.pending, (state) => {
         state.loading = true;
         state.error = false;
         state.errorMessages = [];

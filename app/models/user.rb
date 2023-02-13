@@ -1,10 +1,10 @@
 class User < ApplicationRecord
   include Devise::JWT::RevocationStrategies::JTIMatcher
 
-  devise :database_authenticatable, :registerable,
+  devise :invitable, :database_authenticatable, :registerable,
          :jwt_authenticatable, jwt_revocation_strategy: self
 
   def jwt_payload
-    super.merge('foo' => 'bar')
+    super
   end
 end

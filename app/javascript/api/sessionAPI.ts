@@ -1,6 +1,7 @@
 import axios from "./axios";
 
 const LOGIN_URL = "/users/login.json";
+const INVITE_URL = "/users/invite.json";
 const SIGNUP_URL = "/users/signup.json";
 const UPDATE_PROFILE_URL = "/users";
 const LOGOUT_URL = "/logout";
@@ -18,7 +19,7 @@ export async function createUserWithEmailAndPassword(
   };
 
   return axios
-    .post(SIGNUP_URL, data)
+    (SIGNUP_URL, data)
     .then((response: any) => {
       return response.data;
     })
@@ -40,6 +41,48 @@ export async function loginWithEmailAndPassword(
 
   return axios
     .post(LOGIN_URL, data)
+    .then((response: any) => {
+      return response.data;
+    })
+    .catch((error: any) => {
+      return error.response.data;
+    });
+}
+
+export async function inviteWithEmail(
+  email: string,
+) {
+  const data = {
+    user: {
+      email: email,
+    }
+  };
+
+  return axios
+    .post(INVITE_URL, data)
+    .then((response: any) => {
+      return response.data;
+    })
+    .catch((error: any) => {
+      return error.response.data;
+    });
+}
+
+export async function inviteAcceptReq(
+  password: string,
+  passwordConfirmation: string,
+  invitationToken: string,
+) {
+  const data = {
+    user: {
+      password: password,
+      password_confirmation: passwordConfirmation,
+      invitation_token: invitationToken
+    }
+  };
+
+  return axios
+    .put(INVITE_URL, data)
     .then((response: any) => {
       return response.data;
     })

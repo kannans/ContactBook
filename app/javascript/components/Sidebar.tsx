@@ -5,7 +5,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import { AccountBox, DarkMode, Group, Home, MenuBook, ModeNight, Pages, Person2, Settings, Storefront } from '@mui/icons-material';
+import { Home } from '@mui/icons-material';
 
 const Sidebar = () => {
   return (
@@ -13,24 +13,13 @@ const Sidebar = () => {
        <Box position="fixed">
       <List>
         <ListItem disablePadding>
-          <ListItemButton component="a" href="#home">
+          <ListItemButton component="a" href="/dashboard">
             <ListItemIcon>
               <Home />
             </ListItemIcon>
             <ListItemText primary="Dashboard" />
           </ListItemButton>
         </ListItem>
-
-
-        <ListItem disablePadding>
-          <ListItemButton component="a" href="#home">
-            <ListItemIcon>
-              <Person2 />
-            </ListItemIcon>
-            <ListItemText primary="Users" />
-          </ListItemButton>
-        </ListItem>
-      
       </List>
       </Box>
     </Box>

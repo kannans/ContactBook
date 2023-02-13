@@ -2,11 +2,13 @@ Rails.application.routes.draw do
   devise_for :users, path: '', path_names: {
     sign_in: 'users/login',
     sign_out: 'logout',
-    registration: 'users/signup'
+    registration: 'users/signup',
+    invitation: 'users/invite'
   },
   controllers: {
     sessions: 'users/sessions',
-    registrations: 'users/registrations'
+    registrations: 'users/registrations',
+    invitations: 'users/invitations'
   }
   get '/current_user', to: 'current_user#index'
 

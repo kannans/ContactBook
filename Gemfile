@@ -75,3 +75,5 @@ gem "devise", "~> 4.8"
 gem 'devise-jwt'
 gem 'fast_jsonapi'
 gem 'rack-cors'
+gem 'devise_invitable', '~> 2.0.0'
+gem "letter_opener", group: :development

@@ -52,6 +52,7 @@ const Invite = () => {
     if (errorMessages.length === 0) {
       alert("Invited successfully")
       navigate("/")
+      window.location.reload()
     } else {
       return setErrors(errorMessages);
     }
@@ -90,7 +91,7 @@ const Invite = () => {
                 variant="contained" 
                 color="primary" 
                 type="submit" 
-                id="submit-button">Login</Button>
+                id="submit-button">Send Invite</Button>
             </FormControl>
           </FormGroup>
         </form>

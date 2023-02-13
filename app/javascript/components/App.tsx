@@ -4,13 +4,13 @@ import { Box, Stack, createTheme, ThemeProvider } from "@mui/material";
 
 import Navbar from './NavBar';
 import Sidebar from './Sidebar';
-import Main from './Main';
 import PersistLogin from "./sessions/PersistLogin"
 import Login from "./sessions/Login";
 import AcceptInvite from "./sessions/AcceptInvite";
 import Signup from "./sessions/Signup";
 import PrivateRoute from './routes/PrivateRoute';
 import PublicOnlyRoute from './routes/PublicOnlyRoute';
+import Users from './members/Users';
 
 
 const App = ()=> {
@@ -29,11 +29,10 @@ const App = ()=> {
                   <PrivateRoute>
                     <ThemeProvider theme={darkTheme}>
                     <Navbar/>
-
                       <Box bgcolor={"background.default"} color={"text.primary"}>
                         <Stack direction="row" spacing={2} justifyContent="space-evenly">
                           <Sidebar/>
-                          <Main/>
+                          <Users/>
                         </Stack>
                       </Box>
                     </ThemeProvider>

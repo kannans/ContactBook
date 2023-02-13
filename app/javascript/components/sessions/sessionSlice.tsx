@@ -1,6 +1,5 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { createUserWithEmailAndPassword, getCurrentUser, inviteAcceptReq, inviteWithEmail, loginWithEmailAndPassword, logoutUserWithToken, requestAccessTokenWithRefreshToken, updateUserProfile } from "../../api/sessionAPI";
-import { RootState, AppThunk } from "../../controllers/store";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createUserWithEmailAndPassword, getCurrentUser, getUsersReq, inviteAcceptReq, inviteWithEmail, loginWithEmailAndPassword, logoutUserWithToken, requestAccessTokenWithRefreshToken, updateUserProfile } from "../../api/sessionAPI";
 
 
 export interface User {
@@ -10,6 +9,7 @@ export interface User {
   status?: string;
   createdAt?: string;
 }
+export interface UserList extends Array<User>{}
 
 export interface UserLoginData {
   email: string;
@@ -37,6 +37,7 @@ interface AuthState {
   loading: boolean;
   error: boolean;
   errorMessages: string[];
+  usersList: UserList[],
   accessToken?: string;
   refreshToken?: string | null;
   expiresIn?: number;
@@ -55,10 +56,11 @@ const initialState: AuthState = {
   loading: true,
   error: false,
   errorMessages: [],
+  usersList: [],
   accessToken: undefined,
   refreshToken: getRefreshToken(),
   expiresIn: undefined,
-  tokenType: undefined
+  tokenType: undefined,
 }
 
 // The function below is called a thunk and allows us to perform async logic. It
@@ -98,6 +100,18 @@ export const updateProfile = createAsyncThunk(
     }
     // The value we return becomes the `fulfilled` action payload
     return response;
+  }
+);
+
+export const getUsers = createAsyncThunk(
+  "session/getUsers",
+  async (payload: String, { rejectWithValue }) => {
+    const membersResponse = await getUsersReq();
+    if (membersResponse.error) {
+      // The value we return becomes the `rejected` action payload
+      return rejectWithValue(membersResponse);
+    }
+    return membersResponse.data;
   }
 );
 
@@ -382,6 +396,12 @@ export const sessionSlice = createSlice({
         state.error = false;
         state.errorMessages = [];
       })
+      .addCase(getUsers.fulfilled, (state, action: any) => {
+        state.usersList = action.payload
+        state.loading = false;
+        state.error = true;
+        state.errorMessages = [];
+      })
       .addCase(updateProfile.rejected, (state, action: any) => {
         state.loading = false;
         state.error = true;
@@ -391,14 +411,6 @@ export const sessionSlice = createSlice({
 });
 
 export const { resetErrorState } = sessionSlice.actions;
-
-// The function below is called a selector and allows us to select a value from
-// the state. Selectors can also be defined inline where they're used instead of
-// in the slice file. For example: `useSelector((state: RootState) => state.counter.value)`
-// export const selectCount = (state: RootState) => state.counter.value;
-
-// We can also write thunks by hand, which may contain both sync and async logic.
-// Here's an example of conditionally dispatching actions based on current state.
 
 export default sessionSlice.reducer;
 

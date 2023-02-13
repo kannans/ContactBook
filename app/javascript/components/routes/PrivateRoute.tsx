@@ -10,8 +10,6 @@ function PrivateRoute({ children  } : any ) {
   const fromLocation = (location.state as any)?.from;
   const previousLocation = fromLocation ? fromLocation : { pathname: '/login'};
 
-  console.log("private")
-
   if (accessToken) {
       return children;
   } else if (!accessToken && loading) {

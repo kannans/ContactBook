@@ -8,31 +8,23 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Box, Typography } from '@mui/material';
-import Invite from './Invite';
+import Invite from '../Invite';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../controllers/store';
+import { getUsers } from '../sessions/sessionSlice';
 
 
- const Users=()=> {
-  const [users, setUsers] = useState([])
+ const Users = () => {
+  const loading = useSelector((state: RootState) => state.session.loading);
+  const accessToken = useSelector((state : RootState) => state.session.accessToken);
+  const users = useSelector((state : RootState) => state.session.usersList);
+  
   const dispatch = useDispatch();
-  const [loadig, setLoading] = useState(true)
-
-  const getBlogs = async () => {
-    const response = await fetch("http://localhost:3000/members.json")
-    const result = await response.json()
-    setUsers(result.data)
-    setLoading(false)
-  }
-
-  useEffect(()=>{
-    getBlogs()
-  }, [])
 
   useEffect(() => {
-    // dispatch(getUsers());
-    console.log("get usssf")
-  }, [])
+    dispatch(getUsers());
+  }, []);
 
   return (
     <Box flex={5} p={2}>

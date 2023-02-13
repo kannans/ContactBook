@@ -3,6 +3,7 @@ import axios from "./axios";
 const LOGIN_URL = "/users/login.json";
 const INVITE_URL = "/users/invite.json";
 const SIGNUP_URL = "/users/signup.json";
+const MEMBERS_URL = "/members.json";
 const UPDATE_PROFILE_URL = "/users";
 const LOGOUT_URL = "/logout";
 const CURRENT_USER_URL = "/current_user.json";
@@ -141,6 +142,17 @@ export async function requestAccessTokenWithRefreshToken(refreshToken: string) {
 
   return axios
     .post(LOGIN_URL, data)
+    .then((response: any) => {
+      return response.data;
+    })
+    .catch((error: any) => {
+      return error.response.data;
+    });
+}
+
+export async function getUsersReq() {
+  return axios
+    .get(MEMBERS_URL)
     .then((response: any) => {
       return response.data;
     })

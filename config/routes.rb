@@ -12,11 +12,7 @@ Rails.application.routes.draw do
   }
   get '/current_user', to: 'current_user#index'
 
-  resources :users do
-    collection do 
-      get :me
-    end
-  end
+  resources :members 
   root to: 'home#index'
   get '*path' => 'home#index'
 end

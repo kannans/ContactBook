@@ -34,3 +34,11 @@ bin/dev
 ```
 
 Access the application at http://localhost:3000
+
+
+### TODO: 
+- User profile update
+- Only show my contacts(invited contacts)
+- Dashboard graphs
+- Add addition user fields
+- Test cases

@@ -35,6 +35,10 @@ bin/dev
 
 Access the application at http://localhost:3000
 
+4) Invite user by click on + float button
+
+<img width="400" alt="image" src="https://user-images.githubusercontent.com/927177/218443326-b04e5adc-1d9c-4283-928a-33b383072b99.png">
+
 
 ### TODO: 
 - User profile update

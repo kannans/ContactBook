@@ -3,23 +3,25 @@
 class Users::SessionsController < Devise::SessionsController
   respond_to :json
 
-  def destroy
-    super
-  end
-
   private
 
   def respond_with(resource, _opts = {})
-    render json: {
-      status: {code: 200, message: 'Logged in sucessfully.'},
-      data: UserSerializer.new(resource).serializable_hash[:data][:attributes]
-    }, status: :ok
+    render json: { message: 'You are logged in.' }, status: :ok
   end
 
   def respond_to_on_destroy
-    render json: {
-        status: 200,
-        message: "logged out successfully"
-      }, status: :ok
+    
+    log_out_success && return if current_user
+
+    log_out_failure
+  end
+
+  def log_out_success
+    raise current_user.inspect
+    render json: { message: "You are logged out." }, status: :ok
+  end
+
+  def log_out_failure
+    render json: { message: "Hmm nothing happened."}, status: :unauthorized
   end
 end

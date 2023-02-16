@@ -126,7 +126,6 @@ export const loginUser = createAsyncThunk(
       // The value we return becomes the `rejected` action payload
       return rejectWithValue(loginResponse);
     }
-    console.log("loginResponse", loginResponse.data)
     const userResponse = await getCurrentUser(loginResponse.data.access_token);
     console.log("userResponse", userResponse)
     if (userResponse.error) {

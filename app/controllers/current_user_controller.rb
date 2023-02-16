@@ -1,16 +1,7 @@
 class CurrentUserController < ApplicationController
-  before_action :user_from_auth_token
-  respond_to :json
-  
+  before_action :authenticate_user!
 
-  def index
-    render json: {
-      status: {code: 200, message: 'Logged in sucessfully.'},
-      data: UserSerializer.new(@current_user).serializable_hash[:data][:attributes]
-    }, status: :ok
-  end
-
-  def user_from_auth_token
-    @current_user = User.last
+  def show
+    render json: { message: "If you see this, you're in!" }
   end
 end

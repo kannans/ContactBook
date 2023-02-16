@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   scope :api do 
     devise_for :users, path: '', path_names: {
       sign_in: 'users/login',
-      sign_out: 'logout',
+      sign_out: 'users/logout',
       registration: 'users/signup',
       invitation: 'users/invite'
     },
@@ -12,7 +12,7 @@ Rails.application.routes.draw do
       registrations: 'users/registrations',
       invitations: 'users/invitations'
     }
-    get '/current_user', to: 'current_user#index'
+    get '/current_user', to: 'current_user#show'
 
     resources :members 
     root to: 'home#index'

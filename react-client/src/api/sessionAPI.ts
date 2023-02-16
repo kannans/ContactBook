@@ -43,6 +43,9 @@ export async function loginWithEmailAndPassword(
   return axios
     .post(LOGIN_URL, data)
     .then((response: any) => {
+      console.log("response.headers", response)
+      console.log(response.headers.Authorization)
+
       return response.data;
     })
     .catch((error: any) => {

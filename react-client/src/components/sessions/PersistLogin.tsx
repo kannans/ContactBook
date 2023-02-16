@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Outlet } from 'react-router-dom';
-import { RootState } from '../../controllers/store';
+import { AppDispatch, RootState } from "../../store";
 import { refreshAccessToken } from './sessionSlice';
 
 function PersistLogin() {
   const loading = useSelector((state: RootState) => state.session.loading);
   const accessToken = useSelector((state : RootState) => state.session.accessToken);
   const refreshToken = useSelector((state : RootState) => state.session.refreshToken);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
     function verifyRefreshToken() {

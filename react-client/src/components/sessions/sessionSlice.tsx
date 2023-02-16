@@ -37,7 +37,7 @@ interface AuthState {
   loading: boolean;
   error: boolean;
   errorMessages: string[];
-  usersList: UserList[],
+  usersList: UserList,
   accessToken?: string;
   refreshToken?: string | null;
   expiresIn?: number;

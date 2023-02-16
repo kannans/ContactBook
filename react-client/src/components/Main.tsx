@@ -1,7 +1,6 @@
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import React, { useState } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { Box, Stack, createTheme, ThemeProvider } from "@mui/material";
-
 import Navbar from './NavBar';
 import Sidebar from './Sidebar';
 import PersistLogin from "./sessions/PersistLogin"
@@ -13,7 +12,7 @@ import PublicOnlyRoute from './routes/PublicOnlyRoute';
 import Users from './members/Users';
 
 
-const App = ()=> {
+const Main = ()=> {
   const darkTheme = createTheme({
     palette: {
       mode: "light"
@@ -62,4 +61,4 @@ const App = ()=> {
   )
 }
 
-export default App;
+export default Main;

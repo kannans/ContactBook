@@ -1,2 +1,2 @@
 web: unset PORT && bin/rails server
-js: yarn build --watch
+js: cd react-client && yarn start

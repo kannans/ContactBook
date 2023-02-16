@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Fab, IconButton, styled, Modal, Tooltip, Typography, Avatar, TextField, Button, ButtonGroup, FormGroup, FormControl, Input, InputLabel } from '@mui/material'
-import {Add as AddIcon, DateRange, EmojiEmotions, Image, PersonAdd, VideoCameraBack} from "@mui/icons-material"
-import { Box, Stack } from '@mui/system';
+import { Fab,  Modal, Tooltip, Typography, Button, FormGroup, FormControl, Input, InputLabel, styled } from '@mui/material'
+import {Add as AddIcon} from "@mui/icons-material"
+import { Box } from '@mui/system';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../controllers/store';
+import { AppDispatch, RootState } from "../store";
 import { useNavigate } from 'react-router-dom';
 import { getUsers, inviteUser, resetErrorState } from './sessions/sessionSlice';
 
@@ -15,18 +15,12 @@ const Invite = () => {
     alignItems: "center",
     justifyContent: "center"
   })
-  const UserBox = styled(Box)({
-    display: "flex",
-    alignItems: "center",
-    gap: "10px"
-  })
-
   const emailRef = useRef<HTMLInputElement>();
   const errorMessages = useSelector((state: RootState) => state.session.errorMessages);
   const [errors, setErrors] = useState<Array<string>>([])
   const loading = false;
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
     emailRef?.current?.focus();
@@ -46,12 +40,12 @@ const Invite = () => {
     const payload = {
       email: emailRef.current.value,
     }
-    const response = await dispatch(inviteUser(payload)) as any;
+    const response = dispatch(inviteUser(payload)) as any;
     console.log(response);
     setOpen(false)
     if (errorMessages.length === 0) {
       alert("Invited successfully")
-      dispatch(getUsers())
+      dispatch(getUsers("_key")) as any;
     } else {
       return setErrors(errorMessages);
     }
@@ -66,7 +60,7 @@ const Invite = () => {
     </Tooltip>
     <StyleModal
       open={open}
-      onClose={(s)=> setOpen(false)}
+      onClose={()=> setOpen(false)}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >

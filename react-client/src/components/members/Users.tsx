@@ -11,17 +11,17 @@ import { Box, Typography } from '@mui/material';
 import Invite from '../Invite';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../controllers/store';
+import { AppDispatch, RootState } from "../../store";
 import { getUsers } from '../sessions/sessionSlice';
 
 
  const Users = () => {
   const users = useSelector((state : RootState) => state.session.usersList);
   
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    dispatch(getUsers());
+    dispatch(getUsers("key"));
   }, []);
 
   return (
@@ -44,7 +44,7 @@ import { getUsers } from '../sessions/sessionSlice';
               >
                 <TableCell>{row.id}</TableCell>
                 <TableCell>{row.email}</TableCell>
-                <TableCell>{row.created_at}</TableCell>
+                <TableCell>{row.createdAt}</TableCell>
               </TableRow>
             ))}
           </TableBody>

@@ -1,25 +1,17 @@
-import React, { useState, useEffect } from 'react'
-import { AppBar, Avatar, Badge, Icon, InputBase, styled, Toolbar, Typography} from '@mui/material'
-import {ContactMail, Email, Notifications, Pets } from '@mui/icons-material'
+import React from 'react'
+import { AppBar, Avatar, styled, Toolbar, Typography} from '@mui/material'
+import {ContactMail } from '@mui/icons-material'
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { RootState } from '../controllers/store';
+import { AppDispatch, RootState } from "../store";
 import { logoutUser } from './sessions/sessionSlice';
 
 const StyledToolbar = styled(Toolbar)({
-  direction: "flex",
   justifyContent: "space-between"
 })
-
-const Search = styled("div")(({theme}) => ({
-  backgroundColor: "white",
-  padding:"0 10px",
-  borderRadius: theme.shape.borderRadius,
-  width: "40%"
-}));
 
 const Icons = styled("div")(({theme})=>({
   display: "none", 
@@ -41,7 +33,7 @@ const UserBox = styled("div")(({theme})=>({
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const refreshToken = useSelector((state : RootState) => state.session.accessToken);
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -58,9 +50,9 @@ const Navbar = () => {
 
   const handleLogout = () => {
     setAnchorEl(null);
-    dispatch(logoutUser(refreshToken));
-    navigate('/login');
-    // window.location.reload()
+    if(refreshToken)
+      dispatch(logoutUser(refreshToken));
+      navigate('/login');
   };
 
   return (

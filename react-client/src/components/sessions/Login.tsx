@@ -1,28 +1,25 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { Alert, Box, Button, Card, CardActions, CardContent, Container, Divider, FormControl, FormGroup, FormHelperText, IconButton, Input, InputAdornment, InputLabel, OutlinedInput, Typography } from "@mui/material";
-import { useEffect, useRef, useState } from "react";
+import { Alert, Box, Button, Card, CardActions, CardContent, Container, Divider, FormControl, FormGroup, IconButton, Input, InputAdornment, InputLabel, OutlinedInput, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { RootState } from "../../controllers/store";
-import { resetErrorState, signUpUser } from "./sessionSlice";
+import { Link, useNavigate } from "react-router-dom";
+import { AppDispatch, RootState } from "../../store";
+import { loginUser, resetErrorState } from "./sessionSlice";
 
 
-function Signup() {
+function Login() {
   const emailRef = useRef<HTMLInputElement>();
   const passwordRef = useRef<HTMLInputElement>();
-  const passwordConfirmationRef = useRef<HTMLInputElement>();
   const errorMessages = useSelector((state: RootState) => state.session.errorMessages);
-
   const [errors, setErrors] = useState<Array<string>>([])
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const loading = false;
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
     emailRef?.current?.focus();
-    if (errorMessages !== undefined) {
+    if (errorMessages.length > 0) {
       setErrors(errorMessages);
       dispatch(resetErrorState());
     }
@@ -34,22 +31,16 @@ function Signup() {
     if (emailRef?.current === undefined
       || emailRef.current.value === ""
       || passwordRef?.current === undefined
-      || passwordRef.current.value === ""
-      || passwordConfirmationRef?.current === undefined
-          || passwordConfirmationRef.current.value === "") {
+      || passwordRef.current.value === "") {
       return setErrors(["Please fill out all fields"])
-    }
-    if (passwordRef.current.value !== passwordConfirmationRef.current.value) {
-      return setErrors(["Passwords do not match"])
     }
     const payload = {
       email: emailRef.current.value,
       password: passwordRef.current.value
     }
-    const response = await dispatch(signUpUser(payload)) as any;
-
-    console.log("response", response);
-    if (errorMessages.length > 0) {
+    const response = await dispatch(loginUser(payload)) as any;
+    console.log(response);
+    if (errorMessages.length === 0) {
       navigate("/");
     } else {
       return setErrors(errorMessages);
@@ -68,18 +59,6 @@ function Signup() {
     </InputAdornment>
   } />;
 
-  const passwordConfirmationInput = <OutlinedInput id="password-confirmation" type={showPassword ? 'text' : 'password'} inputRef={passwordConfirmationRef} endAdornment={
-    <InputAdornment position="end">
-      <IconButton
-        aria-label="toggle password visibility"
-        onClick={() => setShowPassword(!showPassword)}
-        onMouseDown={() => setShowPassword(!showPassword)}
-        edge="end">
-          {showPassword ? <Visibility /> : <VisibilityOff />}
-      </IconButton>
-    </InputAdornment>
-  } />;
-
   return (
     <section style={{marginTop:"2em"}}>
       <Container maxWidth="md">
@@ -87,7 +66,7 @@ function Signup() {
           <CardContent>
             <Container maxWidth="sm">
               <Typography variant="h2" color="text.primary" gutterBottom>
-                Sign Up
+                Login
               </Typography>
               {errors.length > 0 ?
                 <Alert severity="error" aria-live="assertive">
@@ -103,19 +82,12 @@ function Signup() {
                   <FormControl fullWidth>
                     <InputLabel required htmlFor="email" id="email-label">Email Address</InputLabel>
                     <Input id="email" type="email" inputRef={emailRef}/>
-                    <FormHelperText id="email-helper-text">We&apos;ll never share your email.</FormHelperText>
                   </FormControl>
                 </FormGroup>
                 <FormGroup row={true} id="password-group" sx={{marginTop: "1em"}}>
                   <FormControl fullWidth>
                     <InputLabel required htmlFor="password" id="password-label">Password</InputLabel>
                     {passwordInput}
-                  </FormControl>
-                </FormGroup>
-                <FormGroup row={true} id="password-confirmation-group" sx={{marginTop: "1em"}}>
-                  <FormControl fullWidth>
-                    <InputLabel required htmlFor="password-confirmation" id="password-confirmation-label">Password Confirmation</InputLabel>
-                    {passwordConfirmationInput}
                   </FormControl>
                 </FormGroup>
                 <FormGroup row={true} id="submit-group" sx={{marginTop: "1em"}}>
@@ -125,7 +97,7 @@ function Signup() {
                       variant="contained" 
                       color="primary" 
                       type="submit" 
-                      id="submit-button">Create Account</Button>
+                      id="submit-button">Login</Button>
                   </FormControl>
                 </FormGroup>
               </form>
@@ -134,7 +106,10 @@ function Signup() {
           <Divider light={false} />
           <CardActions sx={{marginTop: "1em", justifyContent: 'center' }} disableSpacing >
             <Box>
-              Already have an account? <Link to="/login">Login!</Link>
+              <Typography variant="body2" color="text.secondary" align="center">
+                  <Link to="/forgot-password">Forgot Password?</Link>
+              </Typography>
+              <Link to="/signup">Create an Account!</Link>
             </Box>
           </CardActions>
         </Card>
@@ -144,4 +119,4 @@ function Signup() {
   )
 }
 
-export default Signup
+export default Login

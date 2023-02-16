@@ -1,17 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Fab, IconButton, styled, Modal, Tooltip, Typography, Avatar, TextField, Button, ButtonGroup, FormGroup, FormControl, Input, InputLabel, Alert } from '@mui/material'
-import {Add as AddIcon, DateRange, EmojiEmotions, Image, PersonAdd, VideoCameraBack} from "@mui/icons-material"
-import { Box, Stack } from '@mui/system';
+import { Typography, Button,FormGroup, FormControl, Input, InputLabel, Alert } from '@mui/material'
+import { Box } from '@mui/system';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../controllers/store';
+import { AppDispatch, RootState } from '../../store';
 import { useNavigate, useParams } from 'react-router-dom';
 import { inviteAcceptUser, resetErrorState } from './sessionSlice';
 
 const AcceptInvite = () => {
   const [open, setOpen]=useState(false);
   let { invitation_token } = useParams();
-  console.log("invitation_token", invitation_token)
-  const [invitationToken, setInviteToken]=useState(invitation_token);
+  const [invitationToken, setInviteToken]=useState(invitation_token || "");
 
   const password = useRef<HTMLInputElement>();
   const passwordConfirmation = useRef<HTMLInputElement>();
@@ -19,7 +17,7 @@ const AcceptInvite = () => {
   const [errors, setErrors] = useState<Array<string>>([])
   const loading = false;
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
     password?.current?.focus();
